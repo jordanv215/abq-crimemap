@@ -1,33 +1,46 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div>
+  <gmap-map
+    :center="center"
+    :zoom="7"
+    style="width: 500px; height: 300px"
+  >
+    <gmap-marker
+      :key="index"
+      v-for="(m, index) in markers"
+      :position="m.position"
+      :clickable="true"
+      :draggable="true"
+      @click="center=m.position"
+    ></gmap-marker>
+  </gmap-map>
 </template>
 
+
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  /////////////////////////////////////////
+  // New in 0.4.0
+  import * as VueGoogleMaps from 'vue2-google-maps';
+  import Vue from 'vue';
+
+  Vue.use(VueGoogleMaps, {
+    load: {
+      key: 'AIzaSyCRy0C18o6sEJemzLcoe7994iNxUFu0Ajw',
+      // libraries: 'places', //// If you need to use place input
+    }
+  });
+
+  export default {
+    data () {
+      return {
+        center: {lat: 10.0, lng: 10.0},
+        markers: [{
+          position: {lat: 10.0, lng: 10.0}
+        }, {
+          position: {lat: 11.0, lng: 11.0}
+        }]
+      }
     }
   }
-}
 </script>
 
 <style lang="scss">
